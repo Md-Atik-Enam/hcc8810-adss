@@ -4,8 +4,10 @@ import { Button, Container, Form, Row, Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { API } from '../utils/constants';
 
-class LandingPage extends Component {
-	constructor(props) {
+class LandingPage extends Component
+{
+	constructor(props)
+	{
 		super(props);
 		this.state = {
 			username: undefined,
@@ -18,7 +20,8 @@ class LandingPage extends Component {
 	}
 
 	// TODO implement this!
-	createOrGetUser() {
+	createOrGetUser()
+	{
 		this.setState({
 			loading: true
 		});
@@ -35,8 +38,10 @@ class LandingPage extends Component {
 					'Access-Control-Allow-Origin': '*'
 				}
 			})
-			.then(response => {
-				if (response.status === 200) {
+			.then(response =>
+			{
+				if (response.status === 200)
+				{
 					this.setState({
 						updateSuccess: true,
 						loading: false
@@ -45,23 +50,27 @@ class LandingPage extends Component {
 			});
 	}
 
-	async startTimer() {
+	async startTimer()
+	{
 		await this.wait(3000);
 		this.setState({
 			updateSuccess: true
 		});
 	}
 
-	wait(time) {
+	wait(time)
+	{
 		this.setState({
 			loading: true
 		});
-		return new Promise(resolve => {
+		return new Promise(resolve =>
+		{
 			setTimeout(resolve, time);
 		});
 	}
 
-	onValueChange = (event) => {
+	onValueChange = (event) =>
+	{
 		let responseText = event.target.value;
 		this.setState({
 			username: responseText,
@@ -69,13 +78,15 @@ class LandingPage extends Component {
 		});
 	}
 
-	render() {
+	render()
+	{
 		let buttonDisabled = !this.state.userResponded;
 		let username = this.state.username;
 
 		const dest = this.props.dest;
 
-		if (this.state.updateSuccess) {
+		if (this.state.updateSuccess)
+		{
 			return (
 				<Navigate to={dest} state={
 					{
@@ -98,6 +109,7 @@ class LandingPage extends Component {
 							<Form.Control as="textarea" rows={1} onChange={this.onValueChange} />
 						</Form.Group>
 					</Row>
+				
 					<Row>
 						<Button variant="primary" size="md" className="footer-btn"
 							disabled={buttonDisabled && !this.state.loading}

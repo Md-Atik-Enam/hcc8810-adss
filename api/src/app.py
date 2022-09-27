@@ -23,6 +23,7 @@ from db_connectors.movie_db import MovieDB
 from db_connectors.survey_db import InvalidSurveyException, SurveyDB
 from models import Rating
 from utils.json_utils import RssaJsonEncoder
+from operator import attrgetter
 
 app = Flask(__name__)
 CORS(app)
@@ -118,7 +119,6 @@ def get_movies_for_user():
 
     return Response(json.dumps(movies), mimetype='application/json')
 
-
 @app.route('/recommendations', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def predict_preferences():
@@ -142,13 +142,14 @@ def predict_preferences():
         rightitems = movie_db.get_movie_from_list(
             movieids=right, api=moviesubset)
 
+
         prediction = {
             # topN
             'left': {
                 'tag': 'control',
                 'label': 'Movies You May Like',
                 'byline': 'Among the movies in your system, we predict that \
-                    you will like these 7 movies the best.',
+                    you will like these 11 movies the best.',
                 'items': leftitems
             },
             # Condition specific messaging

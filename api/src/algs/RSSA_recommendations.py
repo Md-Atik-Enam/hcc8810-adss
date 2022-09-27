@@ -1,5 +1,7 @@
 # RSSA recommendation lists
 
+from math import floor
+from statistics import mean
 import sys
 import warnings
 if not sys.warnoptions:
@@ -46,9 +48,11 @@ def RSSA_live_prediction(algo, liveUserID, new_ratings, item_popularity):
         digit = digit + 1
     denominator = 10 ** digit
     
-    a = 0.5 ## updated Jul. 6, 2021
+    #a = 0.5 ## updated Jul. 6, 2021
+    
     als_implicit_preds_popularity_df = pd.merge(als_implicit_preds_df, item_popularity, how = 'left', on = 'item')
     RSSA_preds_df = als_implicit_preds_popularity_df
+    a = mean(RSSA_preds_df['score'] - RSSA_preds_df['count']) - floor(mean(RSSA_preds_df['score'] - RSSA_preds_df['count']))
     RSSA_preds_df['discounted_score'] = RSSA_preds_df['score'] - a*(RSSA_preds_df['count']/denominator)
         # ['item', 'score', 'count', 'rank', 'discounted_score']
     
