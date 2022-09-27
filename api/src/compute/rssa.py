@@ -168,7 +168,7 @@ class RSSACompute:
 		RSSA_preds_noRatedItems_sort_by_rank_numTopN = discounted_preds_sorted.head(numTopN)
 		# ['item', 'score', 'count', 'rank', 'discounted_score']  
 		
-		RSSA_preds_noRatedItems_sort_by_rank_numTopN['weighted'] = 0.6*RSSA_preds_noRatedItems_sort_by_rank_numTopN['discounted_score'] +0.4*RSSA_preds_noRatedItems_sort_by_rank_numTopN['count']
+		RSSA_preds_noRatedItems_sort_by_rank_numTopN['weighted'] = 0.7*RSSA_preds_noRatedItems_sort_by_rank_numTopN['discounted_score'] +0.3*RSSA_preds_noRatedItems_sort_by_rank_numTopN['rank']
 		recs_ranked_items_discounted = RSSA_preds_noRatedItems_sort_by_rank_numTopN.sort_values(by = 'weighted', ascending = True).head(numRec)
 		# ['item', 'score', 'count', 'rank', 'discounted_score']     
 
