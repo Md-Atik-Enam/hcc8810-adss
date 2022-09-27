@@ -39,7 +39,7 @@ class RSSACompute:
 
 # Blend different algorithm
 # Change one algorithm
-# Implemented another one using rank among the topN
+# Implemented another one using weights among the topN
 # Mixed the recommendations with weights ratio of 5:3:2:1 and randomized the suggestions
 
 	def get_condition_prediction(self, ratings: List[Rating], user_id, condition, numRec=10):
@@ -156,7 +156,7 @@ class RSSACompute:
 		return list(map(str, recs_hip_items_discounted['item']))
 
 
-# implemented a simple hip like algorithm using rank
+# implemented a simple hip like algorithm using weights on discounted score and count
 	def predict_user_ranked_topN_items(self, ratings: List[Rating], user_id, numRec=10) -> List[Preference]:
 		# numRec = 10
 		numTopN = 1000 
@@ -168,7 +168,8 @@ class RSSACompute:
 		RSSA_preds_noRatedItems_sort_by_rank_numTopN = discounted_preds_sorted.head(numTopN)
 		# ['item', 'score', 'count', 'rank', 'discounted_score']  
 		
-		recs_ranked_items_discounted = RSSA_preds_noRatedItems_sort_by_rank_numTopN.sort_values(by = 'rank', ascending = True).head(numRec)
+		RSSA_preds_noRatedItems_sort_by_rank_numTopN['weighted'] = 0.6*RSSA_preds_noRatedItems_sort_by_rank_numTopN['discounted_score'] +0.4*RSSA_preds_noRatedItems_sort_by_rank_numTopN['count']
+		recs_ranked_items_discounted = RSSA_preds_noRatedItems_sort_by_rank_numTopN.sort_values(by = 'weighted', ascending = True).head(numRec)
 		# ['item', 'score', 'count', 'rank', 'discounted_score']     
 
 		return list(map(str, recs_ranked_items_discounted['item']))

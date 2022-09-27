@@ -149,7 +149,7 @@ def predict_preferences():
                 'tag': 'control',
                 'label': 'Movies You May Like',
                 'byline': 'Among the movies in your system, we predict that \
-                    you will like these 11 movies the best.',
+                    you will like these 11 movies the best. We have also included a few other recommendation that you may try.',
                 'items': leftitems
             },
             # Condition specific messaging
